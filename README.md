@@ -32,7 +32,7 @@ Optional flags:
 
 ## 注意
 运行此脚本首先确认主机可以使用ipv6地址
-运行脚本生成的文件存放于当前用户的home目录下，为影藏文件，文件名以.cf开头
+运行脚本生成的文件存放于当前用户的home目录下，为隐藏文件，文件名以.cf开头
 
 ## 参考
 - [https://github.com/yulewang/cloudflare-api-v4-ddns](https://github.com/yulewang/cloudflare-api-v4-ddns)
