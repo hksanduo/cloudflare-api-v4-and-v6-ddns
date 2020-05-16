@@ -36,7 +36,7 @@ Optional flags:
 
 ## py版本
 之前使用的是archlinux服务器，但是由于archlinux滚动升级，每次升级总是很烦，这次把服务器换成Ubuntu 20.04,这个版本优化的不错，个人还是
-很喜欢的，在设定cloudflare DDNS时，出现问题了，整体排查后发现，grep使用perl正则，在匹配的时候出现了选学问题，而且问题出现的不止一处，
+很喜欢的，在设定cloudflare DDNS时，出现问题了，整体排查后发现，grep使用perl正则，在匹配的时候出现了玄学问题，而且问题出现的不止一处，
 出问题的点主要是在处理返回的json数据，引入python解析json数据，但是越改越恶心，还不如自己写一个。
 
 py版本支持python3，未在python2.7上测试。执行以下命令安装依赖
