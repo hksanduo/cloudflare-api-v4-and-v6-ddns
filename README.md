@@ -6,7 +6,7 @@
 1、申请域名
 2、更改DNS解析服务器为cloudflare
 3、配置ipv4或ipv6解析记录，随便一个都行，根绝个人情况配置，可以参考下面的配置   
-![cloudflare ddns](https://github.com/hksanduo/cloudflare-api-v4-and-v6-ddns/ddns.png)  
+![cloudflare ddns](https://github.com/hksanduo/cloudflare-api-v4-and-v6-ddns/blob/master/ddns.png)  
 4、获取cloudflare api key,为后续做准备
 
 ## shell版本
