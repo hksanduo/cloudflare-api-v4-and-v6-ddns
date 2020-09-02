@@ -78,6 +78,12 @@ Optional flags:
            -f false|true \           # force dns update, disregard local stored ip
 ```
 
+## 注意
+在实际的使用过程中，发现路由器上显示公网ip和获取ip地址的站点有差异，具体情况可能是运营商内部做了路由转发之类的，我也不太清楚，目前的解决方案是通过替换
+查询公网ip地址，比如：“ip.cip.cc”，“ipv4.icanhazip.com”，这里不一一列举了，只要把config.ini中wanipsite_ipv4/wanipsite_ipv6替换成能返回纯ip的地址
+即可。
+
 ## 参考
 - [https://github.com/yulewang/cloudflare-api-v4-ddns](https://github.com/yulewang/cloudflare-api-v4-ddns)
 - [https://api.cloudflare.com/](https://api.cloudflare.com/)
+- [https://blog.devhitao.com/2020/02/16/get-my-ip-address/](https://blog.devhitao.com/2020/02/16/get-my-ip-address/)
