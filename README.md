@@ -1,6 +1,13 @@
 # cloudflare-api-v4-and-v6-ddns
 
-本项目是在yulewang/cloudflare-api-v4-ddns脚本的基础上二次开发，增加对ipv6的支持.编写脚本的思路基本上参考原作者yulewang，但是原作者的脚本不支持ipv6,我在此基础上进行修改，重新修改后的脚本变化很大，所以没有fork原作者的项目，请见谅。目前该shell脚本只在archlinux下测试运行，未做兼容性测试，如果脚本出现问题，请多担待。
+本项目是在yulewang/cloudflare-api-v4-ddns脚本的基础上二次开发，增加对ipv6的支持.编写脚本的思路基本上参考原作者yulewang，但是原作者的脚本不支持ipv6,我在此基础上进行修改，重新修改后的脚本变化很大，所以没有fork原作者的项目，请见谅。目前该shell脚本只在archlinux下测试运行，未做兼容性测试，如果脚本出现问题，请多担待,前段时间在ubuntu20.04上运行出现问题，主要是在正则匹配返回的json数据上出问题了（太菜了，没解决），又重新写了一个python的脚本，方便日常使用cloudflare的ddns，如有不足，请见谅。
+
+## 准备
+1、申请域名
+2、更改DNS解析服务器为cloudflare
+3、配置ipv4或ipv6解析记录，随便一个都行，根绝个人情况配置，可以参考下面的配置   
+![cloudflare ddns](https://github.com/hksanduo/cloudflare-api-v4-and-v6-ddns/ddns.png)  
+4、获取cloudflare api key,为后续做准备
 
 ## shell版本
 运行此脚本，有两种方式：
@@ -23,14 +30,14 @@ Optional flags:
 ### 修改脚本运行
 修改脚本中CFKEY、CFUSER、CFZONE_NAME、CFRECORD_NAME四个参数的值，然后使用 **chmod** 授予 **cf-v4-and-v6-ddns.sh** 执行的权限，在终端命令行中运行此脚本即可。以下是对应参数介绍：         
 
-| 参数 | 对应名称 |
-| ---- | ---- |
-| CFKEY  | cloudflare API key, 通过查阅 https://www.cloudflare.com/a/account/my-account 获取|
-| CFUSER | cloudflare 用户名 如：test@test.com |
-| CFZONE_NAME | 需要解析的主域名 如：example.com |
-| CFRECORD_NAME  | 需要更新动态域名 如：homeserver.example.com|
+| 参数          | 对应名称                                                                          |
+| ------------- | --------------------------------------------------------------------------------- |
+| CFKEY         | cloudflare API key, 通过查阅 https://www.cloudflare.com/a/account/my-account 获取 |
+| CFUSER        | cloudflare 用户名 如：test@test.com                                               |
+| CFZONE_NAME   | 需要解析的主域名 如：example.com                                                  |
+| CFRECORD_NAME | 需要更新动态域名 如：homeserver.example.com                                       |
 
-## 注意
+### 注意
 运行此脚本首先确认主机可以使用ipv6地址
 运行脚本生成的文件存放于当前用户的home目录下，为隐藏文件，文件名以.cf开头
 
@@ -47,12 +54,12 @@ pip3 install requests configparser optparse
 #### 配置config.ini
 config.ini中保存了DDNS需要的所有数据，包括cloudflare key ,cloudflare user等参数，可以根据下面表格进行配置，其他参数可根据实际情况修改
 
-| 参数 | 对应名称 |
-| ---- | ---- |
-| cfkey  | cloudflare API key, 通过查阅 https://www.cloudflare.com/a/account/my-account 获取|
-| cfuser | cloudflare 用户名 如：test@test.com |
-| cfzone_name | 需要解析的主域名 如：example.com |
-| cfrecord_name  | 需要更新动态域名 如：homeserver.example.com|
+| 参数          | 对应名称                                                                          |
+| ------------- | --------------------------------------------------------------------------------- |
+| cfkey         | cloudflare API key, 通过查阅 https://www.cloudflare.com/a/account/my-account 获取 |
+| cfuser        | cloudflare 用户名 如：test@test.com                                               |
+| cfzone_name   | 需要解析的主域名 如：example.com                                                  |
+| cfrecord_name | 需要更新动态域名 如：homeserver.example.com                                       |
 
 ### 设置定时任务运行
 在终端执行`crontab -e`,键入以下定时配置
@@ -62,11 +69,9 @@ config.ini中保存了DDNS需要的所有数据，包括cloudflare key ,cloudfla
 注意：crontab中运行程序，项目的目录是绝对目录;当前用户设置的定时任务是否有权限输出目录到日志目录中。
 
 ### 使用命令行执行
+新增ipv4/v6设定，方便仅有v4/v6的环境使用，通过命令行执行传入参数这种方式很不友好，这里只保留强制更新参数 **-f**，其他全部移除。
 ```
-python3 cf-v4-and-v6-ddns.py -k cloudflare-api-key \
-           -u user@example.com \
-           -h host.example.com \     # fqdn of the record you want to update
-           -z example.com \          # will show you all zones if forgot, but you need this
+python3 cf-v4-and-v6-ddns.py  \
            -h, --help                #show this help message and exit
 
 Optional flags:
