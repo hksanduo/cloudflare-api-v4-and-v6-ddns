@@ -3,11 +3,11 @@
 本项目是在yulewang/cloudflare-api-v4-ddns脚本的基础上二次开发，增加对ipv6的支持.编写脚本的思路基本上参考原作者yulewang，但是原作者的脚本不支持ipv6,我在此基础上进行修改，重新修改后的脚本变化很大，所以没有fork原作者的项目，请见谅。目前该shell脚本只在archlinux下测试运行，未做兼容性测试，如果脚本出现问题，请多担待,前段时间在ubuntu20.04上运行出现问题，主要是在正则匹配返回的json数据上出问题了（太菜了，没解决），又重新写了一个python的脚本，方便日常使用cloudflare的ddns，如有不足，请见谅。
 
 ## 准备
-1、申请域名
-2、更改DNS解析服务器为cloudflare
-3、配置ipv4或ipv6解析记录，随便一个都行，根绝个人情况配置，可以参考下面的配置   
-![cloudflare ddns](https://github.com/hksanduo/cloudflare-api-v4-and-v6-ddns/blob/master/ddns.png)  
-4、获取cloudflare api key,为后续做准备
+1、申请域名     
+2、更改DNS解析服务器为cloudflare       
+3、配置ipv4或ipv6解析记录，随便一个都行，根绝个人情况配置，可以参考下面的配置          
+![cloudflare ddns](https://github.com/hksanduo/cloudflare-api-v4-and-v6-ddns/blob/master/ddns.png)        
+4、获取cloudflare api key,为后续做准备      
 
 ## shell版本
 运行此脚本，有两种方式：
