@@ -38,34 +38,35 @@ def setConfigValue(zone,key,value):
 # get wan ipv4 or ipv6
 def getWanIP(force):
     ip = {'IPv4': '','IPv6':''}
-    print(getConfigValue('default','WANIPSITE_IPV4'))
-    try:
-        reponseIpv4 = requests.get(getConfigValue('default','WANIPSITE_IPV4'))
-        if reponseIpv4.status_code == 200:
-            ip['IPv4']=reponseIpv4.text.replace("\n", "")
+    if len(getConfigValue('WANIP','WAN_IS_IPV4')) != 0 and getConfigValue('WANIP','WAN_IS_IPV4') == "true":
+        print(getConfigValue('default','WANIPSITE_IPV4'))
+        try:
+            reponseIpv4 = requests.get(getConfigValue('default','WANIPSITE_IPV4'))
+            if reponseIpv4.status_code == 200:
+                ip['IPv4']=reponseIpv4.text.replace("\n", "")
+            else:
+                print("get wan ipv4 error!!! ")
+        except Exception:
+            print("get wan ipv4 address error!!!")
+            # setConfigValue('WANIP','WAN_IS_IPV4','false')
         else:
-            print("get wan ipv4 error!!! ")
-    except Exception:
-        print("get wan ipv4 address error!!!")
-        setConfigValue('WANIP','WAN_IS_IPV4','false')
-    else:
-        setConfigValue('WANIP','WAN_IS_IPV4','true')
-        print("get wan ipv4 address success!!!")
-        print("wan ipv4 is:"+ip['IPv4'])
-
-    try:
-        reponseIpv6 = requests.get(getConfigValue('default','WANIPSITE_IPV6'))
-        if reponseIpv6.status_code == 200:
-            ip['IPv6']=reponseIpv6.text.replace("\n", "")
+            # setConfigValue('WANIP','WAN_IS_IPV4','true')
+            print("get wan ipv4 address success!!!")
+            print("wan ipv4 is:"+ip['IPv4'])
+    if len(getConfigValue('WANIP','WAN_IS_IPV6')) != 0 and getConfigValue('WANIP','WAN_IS_IPV6') == "true":
+        try:
+            reponseIpv6 = requests.get(getConfigValue('default','WANIPSITE_IPV6'))
+            if reponseIpv6.status_code == 200:
+                ip['IPv6']=reponseIpv6.text.replace("\n", "")
+            else:
+                print("get wan ipv6 error!!! ")
+        except Exception:
+            # setConfigValue('WANIP','WAN_IS_IPV6','false')
+            print("get wan ipv6 address error!!!")
         else:
-            print("get wan ipv6 error!!! ")
-    except Exception:
-        setConfigValue('WANIP','WAN_IS_IPV6','false')
-        print("get wan ipv6 address error!!!")
-    else:
-        setConfigValue('WANIP','WAN_IS_IPV6','true')
-        print("get wan ipv6 address success!!!")
-        print("wan ipv6 is:"+ip['IPv6'])
+            # setConfigValue('WANIP','WAN_IS_IPV6','true')
+            print("get wan ipv6 address success!!!")
+            print("wan ipv6 is:"+ip['IPv6'])
 
     old_wan_ipv4  = getConfigValue('WANIP','WAN_IPV4')
     old_wan_ipv6  = getConfigValue('WANIP','WAN_IPV6')
@@ -152,7 +153,7 @@ def updateDNS():
     CFTTL = getConfigValue('default','cfttl')
     
     # update ddns by ipv4
-    if WAN_IS_IPV4 == 'true':
+    if WAN_IS_IPV4 == 'true' and len(WAN_IPV4) !=0 :
         print("Updating DNS to wan ipv4")
         cfrecord_v4_url = "https://api.cloudflare.com/client/v4/zones/"+CFZONE_ID+"/dns_records/"+CFRECORD_V4_ID
         headers = {'X-Auth-Email': CF_USER,'X-Auth-Key':CF_KEY,'Content-Type':'application/json'}
@@ -169,7 +170,7 @@ def updateDNS():
             sys.exit(0)
 
     # update ddns by ipv6
-    if  WAN_IS_IPV6 == 'true':
+    if  WAN_IS_IPV6 == 'true' and len(WAN_IPV6) !=0:
         print("Updating DNS to wan ipv6")
         cfrecord_v6_url = "https://api.cloudflare.com/client/v4/zones/"+CFZONE_ID+"/dns_records/"+CFRECORD_V6_ID
         headers = {'X-Auth-Email': CF_USER,'X-Auth-Key':CF_KEY,'Content-Type':'application/json'}
